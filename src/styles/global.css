@@ -99,6 +99,25 @@
   font-family: 'Callingstone', cursive !important;
 }
 
+/* Great Vibes y Cinzel: se sirven desde el propio sitio (no desde Google) para
+   que el nombre aparezca sin esperar dos viajes a internet. Solo el
+   subconjunto latino, que alcanza para español. */
+@font-face {
+  font-family: 'Great Vibes';
+  src: url('/fonts/GreatVibes.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  src: url('/fonts/Cinzel.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Para el nombre */
 .font-great-vibes {
   font-family: 'Great Vibes', cursive !important;

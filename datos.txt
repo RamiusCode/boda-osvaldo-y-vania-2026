@@ -24,7 +24,7 @@ CEREMONIA RELIGIOSA
 Parroquia Santa Basílica Catedral
 Plaza Principal 10 de Noviembre
 Hora: 17:00
-Mapa de Google: FALTA
+Mapa: coordenadas de la Plaza 10 de Noviembre (-19.589244, -65.753501)
 
 PADRINOS
 Católico y Civil: Luis A. Marca Oyola / Sonia Cruz de Marca
@@ -37,12 +37,17 @@ Faraones Vip
 Av. Final Independencia
 Hora: 20:00 (sábado 12 de diciembre)
 La celebración continúa el domingo 13 de diciembre a las 19:00, en el mismo salón
-Mapa de Google: FALTA
+Mapa: coordenadas -19.582082, -65.766566
+
+TERCER DÍA
+Lunes 14 de diciembre, 16:00
+Salón de Eventos Bettys
+Calle Cañada Strongers (frente a la cancha de futsal)
+Mapa: https://maps.app.goo.gl/TcqUK8gTDPhxFxdH7
 
 FALTA (no está en la invitación impresa)
-- Link de Google Maps del salón Faraones Vip
 - Itinerario completo (hoy solo está la ceremonia religiosa)
-- Link de Google Maps de la catedral
+- Link exacto de Google Maps de la catedral y del salón Faraones Vip (hoy son coordenadas)
 - Foto de los novios y foto de la recepción
 - QR y cuenta para regalos (la sección está apagada)
 - Dirección web publicada (astro.config.mjs) y miniatura de WhatsApp
