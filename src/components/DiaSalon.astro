@@ -1,0 +1,245 @@
+---
+// src/components/DiaSalon.astro
+// Bloque de un día de la celebración que pasa en un salón: el encabezado
+// (título del día y fecha) y debajo una tarjeta verde con filete dorado por
+// dentro (con un rombito arriba y otro abajo): una frase de entrada, el
+// nombre del lugar en Great Vibes dorado, la dirección, la hora y el botón
+// del mapa. Lo usan SegundoDia.astro y TercerDia.astro: el diseño se
+// cambia solo acá.
+//
+// Entrada: la tarjeta sube, el marco se asienta y el texto aparece en
+// orden, de arriba abajo.
+import TituloDia from "./TituloDia.astro";
+
+export interface Props {
+    titulo: string;
+    fecha: string;
+    intro: string;
+    lugar: string;
+    lineas: string[];
+    hora: string;
+    // Renglón chico bajo la hora. Vacío, no se dibuja
+    nota?: string;
+    mapa: string;
+    textoBoton?: string;
+}
+const {
+    titulo,
+    fecha,
+    intro,
+    lugar,
+    lineas,
+    hora,
+    nota = "",
+    mapa,
+    textoBoton = "Ver mapa",
+} = Astro.props;
+---
+
+<TituloDia titulo={titulo} fecha={fecha} />
+
+<section class="seccion">
+    <div class="tarjeta tarjeta-dia">
+        <!-- Filete dorado interior, con un rombito arriba y otro abajo -->
+        <span class="marco" aria-hidden="true">
+            <i class="marco-rombo marco-rombo-arriba"></i>
+            <i class="marco-rombo marco-rombo-abajo"></i>
+        </span>
+
+        <p class="intro">{intro}</p>
+        <p class="lugar font-great-vibes">{lugar}</p>
+        <p class="dato">
+            {lineas.map((l) => <span>{l}</span>)}
+        </p>
+        <span class="filete" aria-hidden="true"></span>
+        <p class="dato hora">{hora}</p>
+        {nota && <p class="nota">{nota}</p>}
+        <a href={mapa} target="_blank" rel="noopener" class="boton"
+            >{textoBoton}</a
+        >
+    </div>
+</section>
+
+<style>
+    .seccion {
+        position: relative;
+        width: 100%;
+        padding: 8% 0 10%;
+    }
+
+    /* Las letras se miden contra la tarjeta, no contra la pantalla */
+    .tarjeta {
+        container-type: inline-size;
+        position: relative;
+        width: 90%;
+        margin: 0 auto;
+        padding: 12cqw 8cqw 11cqw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        /* Como imagen y no como color: el modo oscuro forzado la respeta */
+        background-image:
+            radial-gradient(
+                ellipse at 50% 30%,
+                rgba(255, 255, 255, 0.09) 0%,
+                rgba(255, 255, 255, 0) 65%
+            ),
+            linear-gradient(180deg, #55836d 0%, #507463 100%);
+        box-shadow: 0 10px 24px rgba(48, 78, 64, 0.22);
+    }
+
+    /* ── Marco dorado interior ─────────────────────────────────── */
+    .marco {
+        position: absolute;
+        inset: 3.4cqw;
+        border: 1px solid rgba(216, 190, 130, 0.55);
+        pointer-events: none;
+    }
+
+    .marco-rombo {
+        position: absolute;
+        left: 50%;
+        width: 2.4cqw;
+        height: 2.4cqw;
+        margin-left: -1.2cqw;
+        border: 1px solid rgba(216, 190, 130, 0.85);
+        background-image: linear-gradient(#517c68, #517c68);
+        transform: rotate(45deg);
+    }
+
+    .marco-rombo-arriba {
+        top: -1.2cqw;
+    }
+
+    .marco-rombo-abajo {
+        bottom: -1.2cqw;
+    }
+
+    .intro {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        font-family: "Cinzel", serif;
+        font-size: 5.8cqw;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #f7f1e8;
+    }
+
+    .lugar {
+        position: relative;
+        z-index: 1;
+        margin: 4cqw 0 0;
+        padding: 0 2cqw;
+        font-size: 17cqw;
+        line-height: 1.15;
+        color: #d8be82;
+    }
+
+    .dato {
+        position: relative;
+        z-index: 1;
+        margin: 3cqw 0 0;
+        display: flex;
+        flex-direction: column;
+        font-family: "Cinzel", serif;
+        font-size: 6.4cqw;
+        line-height: 1.35;
+        letter-spacing: 0.02em;
+        color: #f7f1e8;
+    }
+
+    .filete {
+        display: block;
+        width: 22cqw;
+        height: 1px;
+        margin: 5cqw 0 1cqw;
+        background-image: linear-gradient(
+            90deg,
+            rgba(216, 190, 130, 0) 0%,
+            #d8be82 50%,
+            rgba(216, 190, 130, 0) 100%
+        );
+    }
+
+    .hora {
+        margin-top: 3cqw;
+        font-size: 8cqw;
+    }
+
+    .nota {
+        position: relative;
+        z-index: 1;
+        margin: 4cqw 0 0;
+        font-family: "Cinzel", serif;
+        font-size: 5.2cqw;
+        letter-spacing: 0.05em;
+        color: #e7d8bf;
+    }
+
+    .boton {
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        margin-top: 6cqw;
+        padding: 2cqw 8cqw;
+        border-radius: 999px;
+        font-family: "Cinzel", serif;
+        font-size: 5cqw;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        color: #426c59;
+        background-image: linear-gradient(#f6f1e8, #f6f1e8);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+            return;
+
+        document
+            .querySelectorAll<HTMLElement>(".tarjeta-dia")
+            .forEach((tarjeta) => {
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: tarjeta,
+                start: "top 85%",
+                toggleActions: "play none none reset",
+            },
+        })
+            .fromTo(
+                tarjeta,
+                { opacity: 0, y: 40 },
+                { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
+            )
+            .fromTo(
+                tarjeta.querySelector(".marco"),
+                { opacity: 0 },
+                { opacity: 1, duration: 0.8, ease: "power1.out" },
+                0.3,
+            )
+            .fromTo(
+                tarjeta.querySelectorAll(
+                    ".intro, .lugar, .dato, .filete, .nota, .boton",
+                ),
+                { opacity: 0, y: 12 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    stagger: 0.14,
+                    ease: "power2.out",
+                },
+                0.5,
+            );
+            });
+    });
+</script>

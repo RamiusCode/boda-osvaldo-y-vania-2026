@@ -1,0 +1,157 @@
+---
+// src/components/TituloDia.astro
+// Encabezado de cada día de la celebración: el título en Great Vibes
+// ("Primer día", "Segundo día"), el adorno de rombo y la fecha en Cinzel.
+// Se usa arriba de cada bloque de lugares, así se entiende qué pasa cada día.
+//
+// Entrada: el título se escribe como a mano, el adorno se dibuja desde el
+// rombo y la fecha aparece suave.
+
+export interface Props {
+    titulo: string;
+    fecha: string;
+}
+const { titulo, fecha } = Astro.props;
+---
+
+<section class="encabezado-dia">
+    <p class="titulo font-great-vibes">{titulo}</p>
+
+    <!-- Adorno: dos filetes que salen de un rombo -->
+    <div class="adorno" aria-hidden="true">
+        <i class="adorno-linea adorno-izq"></i>
+        <i class="adorno-rombo"></i>
+        <i class="adorno-linea adorno-der"></i>
+    </div>
+
+    <p class="fecha">{fecha}</p>
+</section>
+
+<style>
+    .encabezado-dia {
+        container-type: inline-size;
+        position: relative;
+        width: 100%;
+        padding: 10cqw 6cqw 0;
+        text-align: center;
+    }
+
+    .titulo {
+        margin: 0;
+        /* Aire para los rulos: la entrada lo recorta de izquierda a derecha */
+        padding: 0 4cqw;
+        display: inline-block;
+        color: #9a7433;
+        font-size: 13cqw;
+        line-height: 1.15;
+    }
+
+    .adorno {
+        margin: 1.6cqw auto 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2.4cqw;
+    }
+
+    .adorno-linea {
+        display: block;
+        width: 18cqw;
+        height: 1px;
+    }
+
+    .adorno-izq {
+        background-image: linear-gradient(
+            90deg,
+            rgba(176, 141, 87, 0) 0%,
+            #b08d57 100%
+        );
+        transform-origin: 100% 50%;
+    }
+
+    .adorno-der {
+        background-image: linear-gradient(
+            90deg,
+            #b08d57 0%,
+            rgba(176, 141, 87, 0) 100%
+        );
+        transform-origin: 0% 50%;
+    }
+
+    .adorno-rombo {
+        display: block;
+        width: 1.9cqw;
+        height: 1.9cqw;
+        border: 1px solid #b08d57;
+        transform: rotate(45deg);
+    }
+
+    .fecha {
+        margin: 3.4cqw 0 0;
+        font-family: "Cinzel", serif;
+        font-size: 5cqw;
+        letter-spacing: 0.06em;
+        color: #6e5a52;
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+            return;
+
+        // Los márgenes negativos dejan pasar los rulos de la letra
+        const tapado = "inset(-40% 100% -40% 0%)";
+        const escrito = "inset(-40% 0% -40% 0%)";
+
+        document
+            .querySelectorAll<HTMLElement>(".encabezado-dia")
+            .forEach((bloque) => {
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: bloque,
+                        start: "top 85%",
+                        toggleActions: "play none none reset",
+                    },
+                })
+                    .fromTo(
+                        bloque.querySelector(".titulo"),
+                        { clipPath: tapado },
+                        {
+                            clipPath: escrito,
+                            duration: 1.2,
+                            ease: "power1.inOut",
+                        },
+                    )
+                    .fromTo(
+                        bloque.querySelector(".adorno-rombo"),
+                        { opacity: 0, scale: 0, rotate: -45 },
+                        {
+                            opacity: 1,
+                            scale: 1,
+                            rotate: 45,
+                            duration: 0.6,
+                            ease: "back.out(2)",
+                        },
+                        0.7,
+                    )
+                    .fromTo(
+                        bloque.querySelectorAll(".adorno-linea"),
+                        { scaleX: 0 },
+                        { scaleX: 1, duration: 0.9, ease: "power2.out" },
+                        0.85,
+                    )
+                    .fromTo(
+                        bloque.querySelector(".fecha"),
+                        { opacity: 0, y: 12 },
+                        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+                        0.9,
+                    );
+            });
+    });
+</script>

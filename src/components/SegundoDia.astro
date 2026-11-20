@@ -1,0 +1,28 @@
+---
+// src/components/SegundoDia.astro
+// El segundo día: solo el salón. El diseño está en DiaSalon.astro.
+import DiaSalon from "./DiaSalon.astro";
+
+// ── DATOS EDITABLES ───────────────────────────────────────────
+const titulo = "Segundo día";
+const fecha = "Domingo 13 de diciembre";
+const intro = "La celebración continúa";
+const lugar = "Faraones Vip";
+const lineas = ["Av. Final Independencia"];
+const hora = "Hora: 19:00";
+const nota = "En el mismo salón de eventos";
+// Es el mismo salón de la recepción del primer día (RecepcionSocial.astro)
+const mapa = "https://www.google.com/maps/search/?api=1&query=-19.582082,-65.766566";
+// ──────────────────────────────────────────────────────────────
+---
+
+<DiaSalon
+    titulo={titulo}
+    fecha={fecha}
+    intro={intro}
+    lugar={lugar}
+    lineas={lineas}
+    hora={hora}
+    nota={nota}
+    mapa={mapa}
+/>

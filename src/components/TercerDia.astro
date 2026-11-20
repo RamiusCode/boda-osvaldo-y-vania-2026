@@ -1,0 +1,25 @@
+---
+// src/components/TercerDia.astro
+// El tercer día: otro salón. El diseño está en DiaSalon.astro.
+import DiaSalon from "./DiaSalon.astro";
+
+// ── DATOS EDITABLES ───────────────────────────────────────────
+const titulo = "Tercer día";
+const fecha = "Lunes 14 de diciembre";
+const intro = "Así mismo los novios te invitan";
+const lugar = "Salón de Eventos Bettys";
+const lineas = ["Calle Cañada Strongers", "(frente a la cancha de futsal)"];
+const hora = "Hora: 16:00";
+const mapa = "https://maps.app.goo.gl/TcqUK8gTDPhxFxdH7";
+// ──────────────────────────────────────────────────────────────
+---
+
+<DiaSalon
+    titulo={titulo}
+    fecha={fecha}
+    intro={intro}
+    lugar={lugar}
+    lineas={lineas}
+    hora={hora}
+    mapa={mapa}
+/>

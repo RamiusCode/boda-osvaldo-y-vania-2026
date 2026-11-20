@@ -1,0 +1,103 @@
+---
+// src/components/Invitacion.astro
+// El cuerpo completo de la invitación, en un solo lugar.
+import Portada from "./Portada.astro";
+import NombresFlores from "./NombresFlores.astro";
+// import Foto1 from "./Foto1.astro"; // galería apagada, ver abajo
+import Versiculo from "./Versiculo.astro";
+import NombresPadres from "./NombresPadres.astro";
+import NombresPadrinos from "./NombresPadrinos.astro";
+import TituloDia from "./TituloDia.astro";
+import RecepcionSocial from "./RecepcionSocial.astro";
+import SegundoDia from "./SegundoDia.astro";
+import TercerDia from "./TercerDia.astro";
+import Cronograma from "./Cronograma.astro";
+import CodigoVestimenta from "./CodigoVestimenta.astro";
+import SugerenciaRegalo from "./SugerenciaRegalo.astro";
+import Restriccion from "./Restriccion.astro";
+import Despedida from "./Despedida.astro";
+import BotonMusica from "./BotonMusica.astro";
+import Contador from "./Contador.astro";
+import Calendario from "./Calendario.astro";
+import Seccion from "./Seccion.astro";
+import Agradecimiento from "./Agradecimiento.astro";
+import PaseInvitado from "./PaseInvitado.astro";
+
+/*
+   Cuántos lugares reserva esta invitación. No se toca acá: lo manda la
+   página. index.astro no le pasa nada y queda en 0, o sea sin pase;
+   pase[cantidad].astro le pasa el número de la URL (/pase1, /pase2...).
+*/
+export interface Props {
+    pases?: number;
+    // Con invitado se ve la tarjeta del pase y se confirma con formulario
+    invitado?: string;
+    /*
+       Conectada al panel de invitados (la usa index.astro). La tarjeta del
+       pase y la ventana de confirmación se dibujan escondidas y aparecen
+       solo si el link (?i=) trae un invitado que existe en la base.
+    */
+    conectado?: boolean;
+}
+const { pases = 0, invitado = "", conectado = false } = Astro.props;
+---
+
+<!-- PORTADA (cubre todo hasta que se toca el botón de ingreso) -->
+<Portada />
+
+<!-- CONTENIDO DE LA INVITACIÓN -->
+<div id="contenido-principal">
+    <NombresFlores />
+    {(invitado || conectado) && (
+        <PaseInvitado invitado={invitado} pases={pases} conectado={conectado} />
+    )}
+    <Versiculo />
+    <NombresPadres />
+    <NombresPadrinos />
+    <Contador />
+    <Calendario />
+    <Seccion />
+    <TituloDia titulo="Primer día" fecha="Sábado 12 de diciembre" />
+    <RecepcionSocial />
+    <SegundoDia />
+    <TercerDia />
+    {/* Cronograma apagado hasta que los novios pasen el itinerario.
+        Para volver a mostrarlo, completar los momentos en Cronograma.astro
+        y volver a poner <Cronograma />. */}
+    {/* <Cronograma /> */}
+    <CodigoVestimenta />
+    {/* Solo Adultos apagado por ahora. Para volver a mostrarlo,
+        volver a poner <Restriccion />. */}
+    {/* <Restriccion /> */}
+    {/* Regalos apagados: traía el QR y la cuenta del cliente anterior.
+        Cargar el QR y la cuenta de Osvaldo y Vania en SugerenciaRegalo.astro
+        y volver a poner <SugerenciaRegalo />. */}
+    {/* <SugerenciaRegalo /> */}
+    {/* Galería de 4 fotos: apagada hasta que los novios pasen las fotos.
+        Para volver a mostrarla, cargar las fotos en Foto1.astro y
+        sacar este comentario. */}
+    {/* <Foto1 /> */}
+    <Agradecimiento />
+    <Despedida
+        pases={pases}
+        invitado={invitado}
+        conectado={conectado}
+    />
+</div>
+
+<!-- El control flotante de la esquina: la nota que pausa y reanuda la melodía -->
+<BotonMusica />
+
+<style>
+    /*
+       Cada sección mide su propio relleno en cqw. Sin un contenedor por
+       encima, ese cqw se calcula contra la pantalla entera: en el celular
+       da igual (la pantalla ES la columna), pero en la computadora el
+       relleno se agrandaba hasta 3 veces y quedaban huecos enormes entre
+       secciones. Con esto el cqw se mide contra la columna de 430px, igual
+       que en el celular.
+    */
+    #contenido-principal {
+        container-type: inline-size;
+    }
+</style>
